@@ -15,5 +15,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'jsx-quotes': ['error', 'prefer-single'],
     'class-methods-use-this': 'off',
+    'no-param-reassign': 'off',
   },
 };
