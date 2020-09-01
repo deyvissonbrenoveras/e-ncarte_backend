@@ -1,7 +1,9 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 import bcrypt from 'bcryptjs';
 
-class User extends Sequelize.Model {
+import Privilege from '../util/PrivilegeEnum';
+
+class User extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -21,6 +23,25 @@ class User extends Sequelize.Model {
       }
     });
     return this;
+  }
+
+  isRoot() {
+    return this.privilege === Privilege.ROOT;
+  }
+
+  isAdmin() {
+    return (
+      this.privilege === Privilege.ROOT ||
+      this.privilege === Privilege.SYSTEM_ADMINISTRATOR
+    );
+  }
+
+  static associate(models) {
+    this.belongsToMany(models.Store, {
+      as: 'Stores',
+      through: 'Users_Stores',
+      foreignKey: 'userId',
+    });
   }
 }
 

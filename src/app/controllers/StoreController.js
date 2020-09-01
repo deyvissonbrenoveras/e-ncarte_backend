@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 
 import Store from '../models/Store';
 import File from '../models/File';
+import User from '../models/User';
 
 class StoreController {
   async index(req, res) {
@@ -40,6 +41,16 @@ class StoreController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Loja não validada' });
     }
+
+    // CHECK USER PRIVILEGES WHEN UPDATING OTHER USER
+    const adminUser = await User.findByPk(req.userId);
+
+    if (!adminUser.isAdmin()) {
+      return res
+        .status(401)
+        .json({ error: 'Você não tem permissão para a ação' });
+    }
+
     // URL VALIDATION
     const str = await Store.findOne({ where: { url: req.body.url } });
     if (str) {
@@ -68,6 +79,7 @@ class StoreController {
   }
 
   async update(req, res) {
+    const { userId } = req;
     const { id } = req.params;
     const { url } = req.body;
 
@@ -86,6 +98,18 @@ class StoreController {
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Loja não validada' });
+    }
+
+    // CHECK IF USER HAS PRIVILEGE TO UPDATE THE STORE
+    const user = await User.findByPk(userId);
+    if (!user.isAdmin()) {
+      // IF NOT ADMIN, CHECK IF HAS ASSOCIATION WITH STORE
+      const privilegeStoreUpdate = await user.getStores({ where: { id } });
+      if (!privilegeStoreUpdate || privilegeStoreUpdate.length === 0) {
+        return res
+          .status(401)
+          .json({ error: 'Você não tem permissão para editar a loja' });
+      }
     }
 
     // URL VALIDATION

@@ -9,6 +9,7 @@ import authMiddleware from './app/middlewares/auth';
 import multerOptions from './config/multer';
 import FileController from './app/controllers/FileController';
 import StoreController from './app/controllers/StoreController';
+import UserStoreController from './app/controllers/UserStoreController';
 
 const upload = multer(multerOptions);
 
@@ -23,10 +24,13 @@ routes.get('/stores/:id', StoreController.index);
 routes.use(authMiddleware);
 // AUTHENTICATION REQUIRED FOR ROUTES BELOW
 
-routes.put('/users', UserController.update);
+routes.put('/users/:id', UserController.update);
 
 routes.post('/stores', StoreController.store);
 routes.put('/stores/:id', StoreController.update);
+
+routes.post('/users_stores/:userId/:storeId', UserStoreController.store);
+routes.delete('/users_stores/:userId/:storeId', UserStoreController.delete);
 
 routes.post('/files', upload.single('image'), FileController.store);
 export default routes;

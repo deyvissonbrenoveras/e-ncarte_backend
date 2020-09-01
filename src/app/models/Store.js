@@ -23,8 +23,13 @@ class Store extends Model {
   }
 
   static associate(models) {
-    Store.belongsTo(models.File, { foreignKey: 'logoId', as: 'logo' });
-    Store.belongsTo(models.File, { foreignKey: 'coverId', as: 'cover' });
+    this.belongsTo(models.File, { foreignKey: 'logoId', as: 'logo' });
+    this.belongsTo(models.File, { foreignKey: 'coverId', as: 'cover' });
+    this.belongsToMany(models.User, {
+      as: 'Users',
+      through: 'Users_Stores',
+      foreignKey: 'storeId',
+    });
     // Store.hasOne(models.File, { foreignKey: 'coverId' });
   }
 }
