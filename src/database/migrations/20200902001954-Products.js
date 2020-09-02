@@ -1,6 +1,6 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Products', {
       id: {
         primaryKey: true,
         allowNull: false,
@@ -11,19 +11,26 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      email: {
-        allowNull: false,
+      description: {
+        allowNull: true,
         type: Sequelize.STRING,
-        unique: true,
       },
-      passwordHash: {
-        type: Sequelize.STRING,
+      price: {
         allowNull: false,
+        type: Sequelize.DOUBLE,
       },
-      privilege: {
+      featured: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
+      fileId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 3,
+        references: {
+          model: 'Files',
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -37,6 +44,6 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('Users');
+    queryInterface.dropTable('Products');
   },
 };

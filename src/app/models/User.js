@@ -36,6 +36,14 @@ class User extends Model {
     );
   }
 
+  isStoreAdmin() {
+    return (
+      this.privilege === Privilege.ROOT ||
+      this.privilege === Privilege.SYSTEM_ADMINISTRATOR ||
+      this.privilege === Privilege.STORE_ADMINISTRATOR
+    );
+  }
+
   static associate(models) {
     this.belongsToMany(models.Store, {
       as: 'Stores',

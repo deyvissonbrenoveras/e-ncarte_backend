@@ -19,6 +19,11 @@ class StoreController {
           as: 'cover',
           attributes: ['id', 'url', 'path'],
         },
+        {
+          model: User,
+          as: 'Admins',
+          attributes: ['id', 'name', 'email'],
+        },
       ],
     });
     return res.json(str);

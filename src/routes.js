@@ -10,6 +10,7 @@ import multerOptions from './config/multer';
 import FileController from './app/controllers/FileController';
 import StoreController from './app/controllers/StoreController';
 import UserStoreController from './app/controllers/UserStoreController';
+import ProductController from './app/controllers/ProductController';
 
 const upload = multer(multerOptions);
 
@@ -31,6 +32,9 @@ routes.put('/stores/:id', StoreController.update);
 
 routes.post('/users_stores/:userId/:storeId', UserStoreController.store);
 routes.delete('/users_stores/:userId/:storeId', UserStoreController.delete);
+
+routes.post('/products', ProductController.store);
+routes.put('/products/:id', ProductController.update);
 
 routes.post('/files', upload.single('image'), FileController.store);
 export default routes;
