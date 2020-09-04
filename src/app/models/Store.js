@@ -30,6 +30,11 @@ class Store extends Model {
       through: 'Users_Stores',
       foreignKey: 'storeId',
     });
+    this.belongsToMany(models.Product, {
+      as: 'Products',
+      through: 'Products_Stores',
+      foreignKey: 'storeId',
+    });
     // Store.hasOne(models.File, { foreignKey: 'coverId' });
   }
 }

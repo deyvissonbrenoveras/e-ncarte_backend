@@ -8,8 +8,8 @@ class UserStoreController {
 
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
-      userId: Yup.number().min(1).required(),
-      storeId: Yup.number().min(1).required(),
+      userId: Yup.number().positive().required(),
+      storeId: Yup.number().positive().required(),
     });
 
     if (!(await schema.isValid({ userId, storeId }))) {
@@ -48,7 +48,7 @@ class UserStoreController {
       where: { id: storeId },
     });
     if (userStoreExists && userStoreExists.length > 0) {
-      return res.status(401).json({
+      return res.status(400).json({
         error: 'O usuário já tem permissão para fazer alterações na loja',
       });
     }
