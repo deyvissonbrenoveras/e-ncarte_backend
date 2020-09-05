@@ -21,7 +21,7 @@ class StoreController {
         },
         {
           model: User,
-          as: 'Admins',
+          as: 'admins',
           attributes: ['id', 'name', 'email'],
         },
       ],

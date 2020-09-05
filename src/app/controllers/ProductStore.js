@@ -1,17 +1,19 @@
 import * as Yup from 'yup';
-import Store from '../models/Store';
 import Product from '../models/Product';
+import User from '../models/User';
+import Store from '../models/Store';
 
 class ProductStore {
   async store(req, res) {
-    const { productId, storeId } = req.params;
+    const { productId } = req.params;
+    const { stores } = req.body;
 
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
       productId: Yup.number().positive().required(),
-      storeId: Yup.number().positive().required(),
+      stores: Yup.array().of(Yup.number()).required(),
     });
-    if (!(await schema.isValid(req.params))) {
+    if (!(await schema.isValid({ productId, stores }))) {
       return res
         .status(400)
         .json({ error: 'Associação Produto - Loja não validada' });
@@ -22,29 +24,49 @@ class ProductStore {
     if (!product) {
       return res.status(400).json({ error: 'O produto informado não existe' });
     }
+    const response = await product.addStores(stores);
+    return res.json(response);
+  }
 
-    // CHECK IF STORE EXISTS
-    const store = await Store.findByPk(storeId);
-    if (!store) {
-      return res.status(400).json({ error: 'A loja informada não existe' });
-    }
+  async delete(req, res) {
+    const { productId } = req.params;
+    const { stores } = req.body;
 
-    // CHECK IF ASSOCIATION HAS ALREADY BEEN MADE
-    const productStoreExists = await store.getProducts({
-      where: { id: productId },
+    // SCHEMA VALIDATION
+    const schema = Yup.object().shape({
+      productId: Yup.number().positive().required(),
+      stores: Yup.array().of(Yup.number()).required(),
     });
-
-    if (productStoreExists && productStoreExists.length > 0) {
+    if (!(await schema.isValid({ productId, stores }))) {
       return res
         .status(400)
-        .json({ error: 'O produto já faz parte dessa loja' });
+        .json({ error: 'Desassociação Produto - Loja não validada' });
     }
 
-    // MUDAR PARA ASSOCIACAO POR ARRAY
+    // CHECK USER PRIVILEGIES
+    const user = await User.findByPk(req.userId, {
+      include: {
+        model: Store,
+        as: 'stores',
+        attributes: ['id'],
+      },
+    });
 
-    const productStore = await store.addProduct(productId);
+    const storesAllowed = await user.hasStores(stores);
 
-    return res.json(productStore);
+    if (!user.isAdmin() && !storesAllowed) {
+      return res.status(401).json({
+        error: 'Você não tem permissão para editar uma ou mais lojas',
+      });
+    }
+
+    // CHECK IF PRODUCT EXISTS
+    const product = await Product.findByPk(productId);
+    if (!product) {
+      return res.status(400).json({ error: 'O produto informado não existe' });
+    }
+    const response = await product.removeStores(stores);
+    return res.json(response);
   }
 }
 

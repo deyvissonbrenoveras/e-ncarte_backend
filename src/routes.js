@@ -41,7 +41,8 @@ routes.put('/products/:id', ProductController.update);
 routes.get('/categories', CategoryController.show);
 routes.post('/categories', CategoryController.store);
 
-routes.post('/products_stores/:productId/:storeId', ProductStore.store);
+routes.post('/products_stores/:productId', ProductStore.store);
+routes.delete('/products_stores/:productId', ProductStore.delete);
 
 routes.post('/files', upload.single('image'), FileController.store);
 export default routes;

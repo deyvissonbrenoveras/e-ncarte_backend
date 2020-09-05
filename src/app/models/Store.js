@@ -26,12 +26,12 @@ class Store extends Model {
     this.belongsTo(models.File, { foreignKey: 'logoId', as: 'logo' });
     this.belongsTo(models.File, { foreignKey: 'coverId', as: 'cover' });
     this.belongsToMany(models.User, {
-      as: 'Admins',
+      as: 'admins',
       through: 'Users_Stores',
       foreignKey: 'storeId',
     });
     this.belongsToMany(models.Product, {
-      as: 'Products',
+      as: 'products',
       through: 'Products_Stores',
       foreignKey: 'storeId',
     });

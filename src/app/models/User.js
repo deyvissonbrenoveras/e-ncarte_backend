@@ -46,7 +46,7 @@ class User extends Model {
 
   static associate(models) {
     this.belongsToMany(models.Store, {
-      as: 'Stores',
+      as: 'stores',
       through: 'Users_Stores',
       foreignKey: 'userId',
     });
