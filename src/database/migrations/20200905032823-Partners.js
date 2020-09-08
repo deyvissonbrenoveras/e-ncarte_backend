@@ -24,7 +24,11 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
-      whatsapp: {
+      regionalAgent: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      agentWhatsapp: {
         allowNull: true,
         type: Sequelize.STRING,
       },

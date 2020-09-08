@@ -9,10 +9,10 @@ class ProductController {
     const schema = Yup.object().shape({
       name: Yup.string().max(100).required(),
       fileId: Yup.number().positive().integer().required(),
-      description: Yup.string().max(1000).notRequired(),
+      description: Yup.string().max(1000),
       price: Yup.number().required(),
-      featured: Yup.boolean().notRequired(),
-      categoryId: Yup.number().positive().notRequired(),
+      featured: Yup.boolean(),
+      categoryId: Yup.number().positive(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -47,10 +47,10 @@ class ProductController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       fileId: Yup.number().positive().integer().required(),
-      description: Yup.string().notRequired(),
+      description: Yup.string(),
       price: Yup.number().required(),
       featured: Yup.boolean().notRequired(),
-      categoryId: Yup.number().positive().notRequired(),
+      categoryId: Yup.number().positive(),
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Produto não validado' });

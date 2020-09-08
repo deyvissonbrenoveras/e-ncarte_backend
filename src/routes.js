@@ -14,6 +14,7 @@ import ProductController from './app/controllers/ProductController';
 import CategoryController from './app/controllers/CategoryController';
 import ProductStore from './app/controllers/ProductStore';
 import PartnerController from './app/controllers/PartnerController';
+import PartnerStoreController from './app/controllers/PartnerStoreController';
 
 const upload = multer(multerOptions);
 
@@ -46,6 +47,9 @@ routes.post('/products_stores/:productId', ProductStore.store);
 routes.delete('/products_stores/:productId', ProductStore.delete);
 
 routes.post('/partners', PartnerController.store);
+routes.put('/partners/:id', PartnerController.update);
+
+routes.post('/partners_stores/:partnerId', PartnerStoreController.store);
 
 routes.post('/files', upload.single('image'), FileController.store);
 export default routes;
