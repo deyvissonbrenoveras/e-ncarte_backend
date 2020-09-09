@@ -42,6 +42,7 @@ routes.put('/products/:id', ProductController.update);
 
 routes.get('/categories', CategoryController.show);
 routes.post('/categories', CategoryController.store);
+routes.put('/categories/:id', CategoryController.update);
 
 routes.post('/products_stores/:productId', ProductStore.store);
 routes.delete('/products_stores/:productId', ProductStore.delete);
