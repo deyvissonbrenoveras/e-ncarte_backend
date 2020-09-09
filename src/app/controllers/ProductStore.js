@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 import Product from '../models/Product';
 import User from '../models/User';
-import Store from '../models/Store';
 
 class ProductStore {
   async store(req, res) {
@@ -17,6 +16,17 @@ class ProductStore {
       return res
         .status(400)
         .json({ error: 'Associação Produto - Loja não validada' });
+    }
+
+    // CHECK USER PRIVILEGIES
+    const user = await User.findByPk(req.userId);
+
+    const storesAllowed = await user.hasStores(stores);
+
+    if (!user.isAdmin() && !storesAllowed) {
+      return res.status(401).json({
+        error: 'Você não tem permissão para editar uma ou mais lojas',
+      });
     }
 
     // CHECK IF PRODUCT EXISTS
@@ -44,13 +54,7 @@ class ProductStore {
     }
 
     // CHECK USER PRIVILEGIES
-    const user = await User.findByPk(req.userId, {
-      include: {
-        model: Store,
-        as: 'stores',
-        attributes: ['id'],
-      },
-    });
+    const user = await User.findByPk(req.userId);
 
     const storesAllowed = await user.hasStores(stores);
 

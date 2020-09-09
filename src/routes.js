@@ -50,6 +50,7 @@ routes.post('/partners', PartnerController.store);
 routes.put('/partners/:id', PartnerController.update);
 
 routes.post('/partners_stores/:partnerId', PartnerStoreController.store);
+routes.delete('/partners_stores/:partnerId', PartnerStoreController.delete);
 
 routes.post('/files', upload.single('image'), FileController.store);
 export default routes;
