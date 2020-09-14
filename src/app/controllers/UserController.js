@@ -23,11 +23,11 @@ class UserController {
       return res.status(400).json({ error: 'O e-mail informado já existe' });
     }
 
-    const user = await User.create({
+    const { id, name, privilege } = await User.create({
       ...req.body,
       privilege: Privilege.USER,
     });
-    return res.json(user);
+    return res.json({ id, name, email, privilege });
   }
 
   async update(req, res) {
