@@ -31,6 +31,7 @@ routes.use(authMiddleware);
 
 routes.put('/users/:id', UserController.update);
 
+routes.get('/stores', StoreController.show);
 routes.post('/stores', StoreController.store);
 routes.put('/stores/:id', StoreController.update);
 

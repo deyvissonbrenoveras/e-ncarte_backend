@@ -29,6 +29,33 @@ class StoreController {
     return res.json(str);
   }
 
+  async show(req, res) {
+    const user = await User.findByPk(req.userId);
+    let stores;
+
+    // DETERMINING WHICH STORES WILL BE RETURNED UNDER THE USER PRIVILEGE
+    if (user.isAdmin()) {
+      stores = await Store.findAll({
+        include: [
+          {
+            model: File,
+            as: 'logo',
+            attributes: ['id', 'url', 'path'],
+          },
+          {
+            model: File,
+            as: 'cover',
+            attributes: ['id', 'url', 'path'],
+          },
+        ],
+      });
+    } else if (user.isStoreAdmin()) {
+      stores = await user.getStores();
+    }
+
+    return res.json(stores);
+  }
+
   async store(req, res) {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
