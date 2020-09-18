@@ -59,8 +59,6 @@ class StoreController {
   async store(req, res) {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
-      logoId: Yup.number(),
-      coverId: Yup.number(),
       name: Yup.string().max(50).required(),
       url: Yup.string().max(50).required(),
       address: Yup.string().max(100),
@@ -69,7 +67,6 @@ class StoreController {
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
     });
-
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Loja não validada' });
     }
