@@ -64,6 +64,7 @@ class StoreController {
       address: Yup.string().max(100),
       city: Yup.string().max(100),
       phone: Yup.string().max(100),
+      instagram: Yup.string().max(100),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
     });
@@ -121,6 +122,7 @@ class StoreController {
       address: Yup.string().max(100),
       city: Yup.string().max(100),
       phone: Yup.string().max(100),
+      instagram: Yup.string().max(100),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
     });

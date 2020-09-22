@@ -27,6 +27,8 @@ module.exports = {
       references: {
         model: 'Categories',
         key: 'id',
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
       },
     });
   },

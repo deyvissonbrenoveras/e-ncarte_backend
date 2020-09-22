@@ -13,6 +13,8 @@ module.exports = {
         references: {
           model: 'Files',
           key: 'id',
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL',
         },
       },
       coverId: {
@@ -21,6 +23,8 @@ module.exports = {
         references: {
           model: 'Files',
           key: 'id',
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL',
         },
       },
       name: {
