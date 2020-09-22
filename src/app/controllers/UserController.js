@@ -1,8 +1,55 @@
+import { Op } from 'sequelize';
 import * as Yup from 'yup';
 import User from '../models/User';
 import Privilege from '../util/PrivilegeEnum';
 
 class UserController {
+  async show(req, res) {
+    let users = [];
+    const attributes = ['id', 'name', 'email', 'active', 'privilege'];
+
+    const adminUser = await User.findByPk(req.userId);
+
+    // CHECK USER PRIVILEGES WHEN SHOWING ALL USERS
+    if (!adminUser.isAdmin()) {
+      return res
+        .status(401)
+        .json({ error: 'Você não tem permissão para a ação' });
+    }
+    // DON'T SHOW ADMIN AND ROOT USERS IF ADMIN USER ISN'T A ROOT
+    if (!adminUser.isRoot()) {
+      users = await User.findAll({
+        attributes,
+        where: {
+          [Op.and]: [
+            {
+              id: {
+                [Op.not]: [req.userId],
+              },
+            },
+            {
+              privilege: {
+                [Op.not]: [Privilege.ROOT, Privilege.SYSTEM_ADMINISTRATOR],
+              },
+            },
+          ],
+        },
+      });
+      // ADMIN USER IS ROOT, SHOWING ALL USERS
+    } else {
+      users = await User.findAll({
+        attributes,
+        where: {
+          [Op.not]: {
+            id: req.userId,
+          },
+        },
+      });
+    }
+
+    return res.json(users);
+  }
+
   async store(req, res) {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
