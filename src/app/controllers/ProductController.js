@@ -2,8 +2,30 @@ import * as Yup from 'yup';
 import User from '../models/User';
 import Product from '../models/Product';
 import Category from '../models/Category';
+import File from '../models/File';
+import Store from '../models/Store';
 
 class ProductController {
+  async index(req, res) {
+    const { id } = req.params;
+    const product = await Product.findByPk(id, {
+      attributes: ['id', 'name', 'description', 'price'],
+      include: [
+        {
+          model: File,
+          as: 'image',
+          attributes: ['id', 'url', 'path'],
+        },
+        {
+          model: Store,
+          as: 'stores',
+          attributes: ['id'],
+        },
+      ],
+    });
+    return res.json(product);
+  }
+
   async store(req, res) {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({

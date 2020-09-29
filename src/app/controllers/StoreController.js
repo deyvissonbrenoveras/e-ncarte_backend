@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import Store from '../models/Store';
 import File from '../models/File';
 import User from '../models/User';
+import Product from '../models/Product';
 
 class StoreController {
   async index(req, res) {
@@ -23,6 +24,16 @@ class StoreController {
           model: User,
           as: 'admins',
           attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Product,
+          as: 'products',
+          attributes: ['id', 'name', 'description', 'price'],
+          include: {
+            model: File,
+            as: 'image',
+            attributes: ['id', 'url', 'path'],
+          },
         },
       ],
     });
