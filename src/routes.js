@@ -47,7 +47,7 @@ routes.post('/categories', CategoryController.store);
 routes.put('/categories/:id', CategoryController.update);
 
 routes.post('/products_stores/:productId', ProductStore.store);
-routes.delete('/products_stores/:productId', ProductStore.delete);
+routes.put('/products_stores/:productId', ProductStore.update);
 
 routes.post('/partners', PartnerController.store);
 routes.put('/partners/:id', PartnerController.update);

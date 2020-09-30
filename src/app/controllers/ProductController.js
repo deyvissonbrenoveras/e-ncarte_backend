@@ -9,7 +9,7 @@ class ProductController {
   async index(req, res) {
     const { id } = req.params;
     const product = await Product.findByPk(id, {
-      attributes: ['id', 'name', 'description', 'price'],
+      attributes: ['id', 'name', 'description', 'price', 'featured'],
       include: [
         {
           model: File,

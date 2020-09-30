@@ -28,7 +28,7 @@ class StoreController {
         {
           model: Product,
           as: 'products',
-          attributes: ['id', 'name', 'description', 'price'],
+          attributes: ['id', 'name', 'description', 'price', 'featured'],
           include: {
             model: File,
             as: 'image',
