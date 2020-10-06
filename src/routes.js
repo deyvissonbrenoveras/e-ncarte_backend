@@ -29,6 +29,7 @@ routes.get('/stores/:id', StoreController.index);
 routes.use(authMiddleware);
 // AUTHENTICATION REQUIRED FOR ROUTES BELOW
 routes.get('/users', UserController.show);
+routes.get('/users/:id', UserController.index);
 routes.put('/users/:id', UserController.update);
 
 routes.get('/stores', StoreController.show);

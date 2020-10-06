@@ -4,6 +4,22 @@ import User from '../models/User';
 import Privilege from '../util/PrivilegeEnum';
 
 class UserController {
+  async index(req, res) {
+    const { id } = req.params;
+
+    // CHECK USER PRIVILEGES WHEN SHOWING USER
+    const adminUser = await User.findByPk(req.userId);
+    if (!adminUser.isAdmin()) {
+      return res
+        .status(401)
+        .json({ error: 'Você não tem permissão para a ação' });
+    }
+    const user = await User.findByPk(id, {
+      attributes: ['id', 'name', 'email', 'active', 'privilege'],
+    });
+    return res.json(user);
+  }
+
   async show(req, res) {
     let users = [];
     const attributes = ['id', 'name', 'email', 'active', 'privilege'];
