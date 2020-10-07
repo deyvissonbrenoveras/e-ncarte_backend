@@ -8,9 +8,11 @@ class PartnerController {
     const schema = Yup.object().shape({
       logoId: Yup.number().positive().required(),
       name: Yup.string().max(100).required(),
-      agentWhatsapp: Yup.number().test((value) => {
-        return value ? value.toString().length <= 11 : true;
-      }),
+      site: Yup.string().max(2048),
+      // agentWhatsapp: Yup.number().test((value) => {
+      //   return value ? value.toString().length <= 11 : true;
+      // }),
+      agentWhatsapp: Yup.number(),
       regionalAgent: Yup.string().max(50),
       sponsorship: Yup.boolean(),
     });
@@ -47,9 +49,10 @@ class PartnerController {
     const schema = Yup.object().shape({
       logoId: Yup.number().positive(),
       name: Yup.string().max(100).required(),
-      agentWhatsapp: Yup.number().test((value) => {
-        return value ? value.toString().length <= 11 : true;
-      }),
+      // agentWhatsapp: Yup.number().test((value) => {
+      //   return value ? value.toString().length <= 11 : true;
+      // }),
+      agentWhatsapp: Yup.number(),
       regionalAgent: Yup.string().max(50),
       sponsorship: Yup.boolean(),
     });
