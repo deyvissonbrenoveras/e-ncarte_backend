@@ -1,8 +1,75 @@
 import * as Yup from 'yup';
 import Partner from '../models/Partner';
+import File from '../models/File';
 import User from '../models/User';
+import Store from '../models/Store';
 
 class PartnerController {
+  async index(req, res) {
+    const { id } = req.params;
+    const partner = await Partner.findByPk(id, {
+      attributes: [
+        'id',
+        'name',
+        'site',
+        'regionalAgent',
+        'agentWhatsapp',
+        'sponsorship',
+      ],
+      include: [
+        {
+          model: File,
+          as: 'logo',
+          attributes: ['id', 'url', 'path'],
+        },
+        {
+          model: Store,
+          as: 'stores',
+          attributes: ['id'],
+        },
+      ],
+    });
+    return res.json(partner);
+  }
+
+  async show(req, res) {
+    // NEEDING ADJUST AUTHORIZATION
+
+    // const user = await User.findByPk(req.userId);
+    // let partners = [];
+    // DETERMINING WHICH PARTNERS WILL BE RETURNED UNDER THE USER PRIVILEGE
+    // if (user.isAdmin()) {
+    //   partners = await Partner.findAll();
+    //   return res.json(partners);
+    // }
+    // if (user.isStoreAdmin()) {
+    //   const stores = await user.getStores();
+    //   const partnersStore = await partners.filter((prtn) => {
+    //     let exists = false;
+    //     stores.forEach((store) => {
+    //       exists = !!store.hasPartner(prtn);
+    //     });
+    //     return exists;
+    //   });
+    //   return res.json(partnersStore);
+    // }
+    const partners = await Partner.findAll({
+      include: [
+        {
+          model: File,
+          as: 'logo',
+          attributes: ['id', 'url', 'path'],
+        },
+        {
+          model: Store,
+          as: 'stores',
+          attributes: ['id'],
+        },
+      ],
+    });
+    return res.json(partners);
+  }
+
   async store(req, res) {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({

@@ -50,11 +50,13 @@ routes.put('/categories/:id', CategoryController.update);
 routes.post('/products_stores/:productId', ProductStore.store);
 routes.put('/products_stores/:productId', ProductStore.update);
 
+routes.get('/partners/:id', PartnerController.index);
+routes.get('/partners', PartnerController.show);
 routes.post('/partners', PartnerController.store);
 routes.put('/partners/:id', PartnerController.update);
 
 routes.post('/partners_stores/:partnerId', PartnerStoreController.store);
-routes.delete('/partners_stores/:partnerId', PartnerStoreController.delete);
+routes.put('/partners_stores/:partnerId', PartnerStoreController.delete);
 
 routes.post('/files', upload.single('file'), FileController.store);
 export default routes;
