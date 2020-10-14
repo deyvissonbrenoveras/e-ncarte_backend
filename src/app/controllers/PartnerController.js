@@ -29,6 +29,10 @@ class PartnerController {
         },
       ],
     });
+    // CHECK IF EXISTS
+    if (!partner) {
+      return res.status(400).json({ error: 'O parceiro informado não existe' });
+    }
     return res.json(partner);
   }
 

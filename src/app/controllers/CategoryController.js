@@ -3,6 +3,19 @@ import Category from '../models/Category';
 import User from '../models/User';
 
 class CategoryController {
+  async index(req, res) {
+    const { id } = req.params;
+    const category = await Category.findByPk(id);
+
+    // CHECK IF EXISTS
+    if (!category) {
+      return res
+        .status(400)
+        .json({ error: 'A categoria informada não existe' });
+    }
+    return res.json(category);
+  }
+
   async show(req, res) {
     const categories = await Category.findAll({ attributes: ['id', 'name'] });
     return res.json(categories);

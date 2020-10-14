@@ -23,6 +23,10 @@ class ProductController {
         },
       ],
     });
+    // CHECK IF EXISTS
+    if (!product) {
+      return res.status(400).json({ error: 'O produto informado não existe' });
+    }
     return res.json(product);
   }
 

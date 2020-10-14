@@ -43,6 +43,7 @@ routes.get('/products/:id', ProductController.index);
 routes.post('/products', ProductController.store);
 routes.put('/products/:id', ProductController.update);
 
+routes.get('/categories/:id', CategoryController.index);
 routes.get('/categories', CategoryController.show);
 routes.post('/categories', CategoryController.store);
 routes.put('/categories/:id', CategoryController.update);

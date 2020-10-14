@@ -37,6 +37,10 @@ class StoreController {
         },
       ],
     });
+    // CHECK IF EXISTS
+    if (!str) {
+      return res.status(400).json({ error: 'A loja informada não existe' });
+    }
     return res.json(str);
   }
 
