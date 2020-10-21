@@ -18,6 +18,11 @@ class Product extends Model {
 
   static associate(models) {
     this.belongsTo(models.File, { foreignKey: 'fileId', as: 'image' });
+    this.belongsTo(models.Category, {
+      foreignKey: 'categoryId',
+      as: 'category',
+    });
+
     this.belongsToMany(models.Store, {
       as: 'stores',
       through: 'Products_Stores',

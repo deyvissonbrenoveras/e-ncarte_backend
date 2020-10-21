@@ -9,12 +9,24 @@ class ProductController {
   async index(req, res) {
     const { id } = req.params;
     const product = await Product.findByPk(id, {
-      attributes: ['id', 'name', 'description', 'price', 'featured'],
+      attributes: [
+        'id',
+        'name',
+        'description',
+        'price',
+        'featured',
+        'categoryId',
+      ],
       include: [
         {
           model: File,
           as: 'image',
           attributes: ['id', 'url', 'path'],
+        },
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
         },
         {
           model: Store,
@@ -38,7 +50,7 @@ class ProductController {
       description: Yup.string().max(1000),
       price: Yup.number().required(),
       featured: Yup.boolean(),
-      categoryId: Yup.number().positive(),
+      categoryId: Yup.number().positive().nullable(true),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -76,7 +88,7 @@ class ProductController {
       description: Yup.string(),
       price: Yup.number().required(),
       featured: Yup.boolean().notRequired(),
-      categoryId: Yup.number().positive(),
+      categoryId: Yup.number().positive().nullable(true),
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Produto não validado' });
