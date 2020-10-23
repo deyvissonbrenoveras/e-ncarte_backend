@@ -4,6 +4,8 @@ import Store from '../models/Store';
 import File from '../models/File';
 import User from '../models/User';
 import Product from '../models/Product';
+import Category from '../models/Category';
+import Partner from '../models/Partner';
 
 class StoreController {
   async index(req, res) {
@@ -28,10 +30,34 @@ class StoreController {
         {
           model: Product,
           as: 'products',
-          attributes: ['id', 'name', 'description', 'price', 'featured'],
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'price',
+            'featured',
+            'categoryId',
+          ],
+          include: [
+            {
+              model: File,
+              as: 'image',
+              attributes: ['id', 'url', 'path'],
+            },
+            {
+              model: Category,
+              as: 'category',
+              attributes: ['id', 'name'],
+            },
+          ],
+        },
+        {
+          model: Partner,
+          as: 'partners',
+          attributes: ['id', 'name'],
           include: {
             model: File,
-            as: 'image',
+            as: 'logo',
             attributes: ['id', 'url', 'path'],
           },
         },

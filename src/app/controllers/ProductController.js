@@ -42,6 +42,31 @@ class ProductController {
     return res.json(product);
   }
 
+  async show(req, res) {
+    const user = await User.findByPk(req.userId);
+    if (!user.isAdmin()) {
+      return res
+        .status(401)
+        .json({ error: 'Você não tem permissão para a ação' });
+    }
+    const products = await Product.findAll({
+      attributes: ['id', 'name', 'description', 'price', 'featured'],
+      include: [
+        {
+          model: File,
+          as: 'image',
+          attributes: ['id', 'url', 'path'],
+        },
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+    return res.json(products);
+  }
+
   async store(req, res) {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
