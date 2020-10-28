@@ -23,7 +23,7 @@ const routes = new Router();
 routes.post('/sessions', SessionController.store);
 routes.post('/users', UserController.store);
 
-routes.get('/stores/:id', StoreController.index);
+routes.get('/store', StoreController.index);
 
 // AUTHENTICATION MIDLEWARE
 routes.use(authMiddleware);

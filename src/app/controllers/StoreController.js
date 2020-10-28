@@ -9,8 +9,11 @@ import Partner from '../models/Partner';
 
 class StoreController {
   async index(req, res) {
-    const { id } = req.params;
-    const str = await Store.findByPk(id, {
+    const { url, id } = req.query;
+    const where = url ? { url } : { id };
+
+    const str = await Store.findOne({
+      where,
       include: [
         {
           model: File,
