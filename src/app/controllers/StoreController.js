@@ -57,7 +57,14 @@ class StoreController {
         {
           model: Partner,
           as: 'partners',
-          attributes: ['id', 'name'],
+          attributes: [
+            'id',
+            'name',
+            'sponsorship',
+            'site',
+            'regionalAgent',
+            'agentWhatsapp',
+          ],
           include: {
             model: File,
             as: 'logo',
