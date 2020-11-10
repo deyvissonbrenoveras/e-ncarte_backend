@@ -8,6 +8,8 @@ class Partner extends Model {
         site: Sequelize.STRING,
         agentWhatsapp: Sequelize.STRING,
         regionalAgent: Sequelize.STRING,
+        instagram: Sequelize.STRING,
+        facebook: Sequelize.STRING,
         sponsorship: Sequelize.BOOLEAN,
       },
       {

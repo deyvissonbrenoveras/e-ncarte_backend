@@ -15,6 +15,8 @@ class PartnerController {
         'regionalAgent',
         'agentWhatsapp',
         'sponsorship',
+        'facebook',
+        'instagram',
       ],
       include: [
         {
@@ -85,6 +87,8 @@ class PartnerController {
       // }),
       agentWhatsapp: Yup.number(),
       regionalAgent: Yup.string().max(50),
+      whatsapp: Yup.string().max(100),
+      facebook: Yup.string().max(100),
       sponsorship: Yup.boolean(),
     });
 
@@ -126,6 +130,8 @@ class PartnerController {
       agentWhatsapp: Yup.number(),
       regionalAgent: Yup.string().max(50),
       sponsorship: Yup.boolean(),
+      whatsapp: Yup.string().max(100),
+      facebook: Yup.string().max(100),
     });
 
     if (!(await schema.isValid(req.body))) {

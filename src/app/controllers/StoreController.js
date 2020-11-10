@@ -64,6 +64,8 @@ class StoreController {
             'site',
             'regionalAgent',
             'agentWhatsapp',
+            'facebook',
+            'instagram',
           ],
           include: {
             model: File,
