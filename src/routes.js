@@ -7,6 +7,7 @@ import UserController from './app/controllers/UserController';
 import authMiddleware from './app/middlewares/auth';
 
 import multerOptions from './config/multer';
+
 import FileController from './app/controllers/FileController';
 import StoreController from './app/controllers/StoreController';
 import UserStoreController from './app/controllers/UserStoreController';
