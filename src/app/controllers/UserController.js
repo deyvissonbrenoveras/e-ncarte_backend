@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 import * as Yup from 'yup';
 import User from '../models/User';
 import Privilege from '../util/PrivilegeEnum';
+import Store from '../models/Store';
 
 class UserController {
   async index(req, res) {
@@ -16,6 +17,13 @@ class UserController {
     }
     const user = await User.findByPk(id, {
       attributes: ['id', 'name', 'email', 'active', 'privilege'],
+      include: [
+        {
+          model: Store,
+          as: 'stores',
+          attributes: ['id'],
+        },
+      ],
     });
     return res.json(user);
   }

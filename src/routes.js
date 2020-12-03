@@ -37,8 +37,8 @@ routes.get('/stores', StoreController.show);
 routes.post('/stores', StoreController.store);
 routes.put('/stores/:id', StoreController.update);
 
-routes.post('/users_stores/:userId/:storeId', UserStoreController.store);
-routes.delete('/users_stores/:userId/:storeId', UserStoreController.delete);
+routes.post('/users_stores/:userId', UserStoreController.store);
+routes.put('/users_stores/:userId', UserStoreController.update);
 
 routes.get('/products', ProductController.show);
 routes.get('/products/:id', ProductController.index);

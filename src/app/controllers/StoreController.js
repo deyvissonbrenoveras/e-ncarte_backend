@@ -103,7 +103,20 @@ class StoreController {
         ],
       });
     } else if (user.isStoreAdmin()) {
-      stores = await user.getStores();
+      stores = await user.getStores({
+        include: [
+          {
+            model: File,
+            as: 'logo',
+            attributes: ['id', 'url', 'path'],
+          },
+          {
+            model: File,
+            as: 'cover',
+            attributes: ['id', 'url', 'path'],
+          },
+        ],
+      });
     }
 
     return res.json(stores);

@@ -6,7 +6,6 @@ class ProductStore {
   async store(req, res) {
     const { productId } = req.params;
     const { stores } = req.body;
-    console.log(req.body);
 
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
@@ -42,7 +41,6 @@ class ProductStore {
   async update(req, res) {
     const { productId } = req.params;
     const { stores } = req.body;
-    console.log(req.body);
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
       productId: Yup.number().positive().required(),
