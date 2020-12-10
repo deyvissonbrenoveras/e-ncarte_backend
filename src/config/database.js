@@ -1,7 +1,7 @@
 module.exports = {
-  username: 'postgres',
-  password: 'omelhorencartedigital',
-  database: 'encarte_db',
-  host: '172.17.0.2',
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
   dialect: 'postgres',
 };

@@ -40,25 +40,6 @@ class PartnerController {
 
   async show(req, res) {
     // NEEDING ADJUST AUTHORIZATION
-
-    // const user = await User.findByPk(req.userId);
-    // let partners = [];
-    // DETERMINING WHICH PARTNERS WILL BE RETURNED UNDER THE USER PRIVILEGE
-    // if (user.isAdmin()) {
-    //   partners = await Partner.findAll();
-    //   return res.json(partners);
-    // }
-    // if (user.isStoreAdmin()) {
-    //   const stores = await user.getStores();
-    //   const partnersStore = await partners.filter((prtn) => {
-    //     let exists = false;
-    //     stores.forEach((store) => {
-    //       exists = !!store.hasPartner(prtn);
-    //     });
-    //     return exists;
-    //   });
-    //   return res.json(partnersStore);
-    // }
     const partners = await Partner.findAll({
       include: [
         {
