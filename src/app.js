@@ -19,10 +19,21 @@ class App {
       '/files',
       express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
     );
+    // FRONTEND REACT
+    this.server.use(
+      express.static(resolve(__dirname, '../../encarte_frontend/build'))
+    );
   }
 
   routes() {
-    this.server.use(routes);
+    this.server.use('/api', routes);
+
+    // FRONTEND REACT
+    this.server.get('/*', (req, res) => {
+      res.sendFile(
+        resolve(__dirname, '../../encarte_frontend/build/index.html')
+      );
+    });
   }
 }
 
