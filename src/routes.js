@@ -25,7 +25,9 @@ routes.post('/sessions', SessionController.store);
 routes.post('/users', UserController.store);
 
 routes.get('/store', StoreController.index);
-
+routes.get('/teste', (req, res) => {
+  return res.send('teste');
+});
 // AUTHENTICATION MIDLEWARE
 routes.use(authMiddleware);
 // AUTHENTICATION REQUIRED FOR ROUTES BELOW
