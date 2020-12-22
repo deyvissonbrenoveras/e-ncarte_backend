@@ -119,14 +119,36 @@ class ProductController {
       return res.status(400).json({ error: 'Produto não validado' });
     }
 
-    // --->>>>> MISSING STORE VALIDATION IF USER ISN'T ADMIN <<<<<---
+    // CHECK IF PRODUCT EXISTS
+    const { id } = req.params;
+    const product = await Product.findByPk(id, {
+      include: {
+        model: Store,
+        as: 'stores',
+      },
+    });
+    if (!product) {
+      return res.status(400).json({ error: 'O produto informado não existe' });
+    }
 
     // CHECK USER PRIVILEGES
+    // STORE VALIDATION IF USER ISN'T ADMIN
     const adminUser = await User.findByPk(req.userId);
     if (!adminUser.isAdmin()) {
-      return res
-        .status(401)
-        .json({ error: 'Você não tem permissão para cadastrar produtos' });
+      const userStores = await adminUser.getStores();
+      let exist = false;
+      for (let i = 0; i < userStores.length; i += 1) {
+        for (let k = 0; k < product.stores.length; k += 1) {
+          if (userStores[i].id === product.stores[k].id) {
+            exist = true;
+          }
+        }
+      }
+      if (!exist) {
+        return res
+          .status(401)
+          .json({ error: 'Você não tem permissão para editar esse produto' });
+      }
     }
 
     // CHECK IF CATEGORY EXISTS
@@ -138,13 +160,6 @@ class ProductController {
           .status(400)
           .json({ error: 'A categoria informada não existe' });
       }
-    }
-
-    // CHECK IF PRODUCT EXISTS
-    const { id } = req.params;
-    const product = await Product.findByPk(id);
-    if (!product) {
-      return res.status(400).json({ error: 'O produto informado não existe' });
     }
 
     await product.update(req.body);

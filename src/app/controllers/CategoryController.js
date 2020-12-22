@@ -33,7 +33,7 @@ class CategoryController {
 
     // CHECK USER PRIVILEGIE
     const user = await User.findByPk(req.userId);
-    if (!user.isStoreAdmin()) {
+    if (!user.isAdmin()) {
       return res
         .status(401)
         .json({ error: 'Você não tem permissão para criar uma categoria' });
@@ -63,7 +63,7 @@ class CategoryController {
 
     // CHECK USER PRIVILEGIE
     const user = await User.findByPk(req.userId);
-    if (!user.isStoreAdmin()) {
+    if (!user.isAdmin()) {
       return res
         .status(401)
         .json({ error: 'Você não tem permissão para criar uma categoria' });

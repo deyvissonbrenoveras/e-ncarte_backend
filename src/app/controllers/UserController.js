@@ -143,7 +143,7 @@ class UserController {
     // CHECK USER PRIVILEGES WHEN UPDATE PRIVILEGE
     const privilege = Number(req.body.privilege);
 
-    if (privilege !== Privilege.USER) {
+    if (privilege < Privilege.STORE_ADMINISTRATOR) {
       if (!adminUser.isRoot()) {
         return res
           .status(401)
