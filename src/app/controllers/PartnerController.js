@@ -121,22 +121,42 @@ class PartnerController {
         .json({ error: 'Parceiro/Patrocinador não validado' });
     }
 
-    // CHECK USER PRIVILEGIE
-    const user = await User.findByPk(req.userId);
-    if (!user.isStoreAdmin()) {
-      return res.status(401).json({
-        error: 'Você não tem permissão para criar um Parceiro/Patrocinador',
-      });
-    }
-
     const { id } = req.params;
-    const partner = await Partner.findByPk(id);
+    const partner = await Partner.findByPk(id, {
+      include: {
+        model: Store,
+        as: 'stores',
+      },
+    });
 
     // CHECK IF PARTNER EXISTS
     if (!partner) {
       return res
         .status(400)
         .json({ error: 'O Parceiro/Patrocinador informado não existe' });
+    }
+
+    // CHECK USER PRIVILEGIE
+    const user = await User.findByPk(req.userId);
+    if (!user.isAdmin()) {
+      const userStores = await user.getStores();
+      let exist = false;
+      for (let i = 0; i < userStores.length; i += 1) {
+        for (let k = 0; k < partner.stores.length; k += 1) {
+          if (userStores[i].id === partner.stores[k].id) {
+            exist = true;
+          }
+        }
+      }
+      if (!exist) {
+        return res.status(401).json({
+          error:
+            'Você não tem permissão para editar esse Parceiro/Patrocinador',
+        });
+      }
+      // return res.status(401).json({
+      //   error: 'Você não tem permissão para criar um Parceiro/Patrocinador',
+      // });
     }
 
     await partner.update(req.body);

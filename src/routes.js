@@ -50,7 +50,7 @@ routes.post('/categories', CategoryController.store);
 routes.put('/categories/:id', CategoryController.update);
 
 routes.post('/products_stores/:productId', ProductStore.store);
-routes.put('/products_stores/:productId', ProductStore.update);
+routes.put('/products_stores', ProductStore.update);
 
 routes.get('/partners/:id', PartnerController.index);
 routes.get('/partners', PartnerController.show);
