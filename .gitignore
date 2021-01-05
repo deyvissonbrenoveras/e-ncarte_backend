@@ -1,6 +1,6 @@
 tmp/
 dist/
-
+client/
 # Logs
 logs
 *.log
