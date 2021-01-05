@@ -20,9 +20,7 @@ class App {
       express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
     );
     // FRONTEND REACT
-    this.server.use(
-      express.static(resolve(__dirname, '../../encarte_frontend/build'))
-    );
+    this.server.use(express.static(resolve(__dirname, '../client')));
   }
 
   routes() {
