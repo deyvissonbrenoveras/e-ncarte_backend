@@ -1,6 +1,7 @@
 import express from 'express';
 import { resolve } from 'path';
 import 'dotenv/config';
+import compression from 'compression';
 import cors from 'cors';
 import routes from './routes';
 import './database';
@@ -13,6 +14,7 @@ class App {
   }
 
   middlewares() {
+    this.server.use(compression());
     this.server.use(cors());
     this.server.use(express.json());
     this.server.use(
