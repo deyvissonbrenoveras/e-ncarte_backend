@@ -14,6 +14,7 @@ class Store extends Model {
         whatsapp: Sequelize.STRING,
         instagram: Sequelize.STRING,
         facebook: Sequelize.STRING,
+        shelfLife: Sequelize.DATE,
       },
       {
         sequelize,

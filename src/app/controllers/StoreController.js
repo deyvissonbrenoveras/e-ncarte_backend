@@ -161,6 +161,7 @@ class StoreController {
       whatsapp,
       instagram,
       facebook,
+      shelfLife,
     } = await Store.create(req.body);
 
     return res.json({
@@ -171,6 +172,7 @@ class StoreController {
       whatsapp,
       instagram,
       facebook,
+      shelfLife,
     });
   }
 
