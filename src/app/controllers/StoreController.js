@@ -180,7 +180,6 @@ class StoreController {
     const { userId } = req;
     const { id } = req.params;
     const { url } = req.body;
-
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
       logoId: Yup.number(),
