@@ -161,6 +161,7 @@ class StoreController {
       whatsapp,
       instagram,
       facebook,
+      shelfLife,
     } = await Store.create(req.body);
 
     return res.json({
@@ -171,6 +172,7 @@ class StoreController {
       whatsapp,
       instagram,
       facebook,
+      shelfLife,
     });
   }
 
@@ -178,7 +180,6 @@ class StoreController {
     const { userId } = req;
     const { id } = req.params;
     const { url } = req.body;
-
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
       logoId: Yup.number(),
