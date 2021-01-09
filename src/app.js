@@ -30,9 +30,7 @@ class App {
 
     // FRONTEND REACT
     this.server.get('/*', (req, res) => {
-      res.sendFile(
-        resolve(__dirname, '../../encarte_frontend/build/index.html')
-      );
+      res.sendFile(resolve(__dirname, '../client/index.html'));
     });
   }
 }
