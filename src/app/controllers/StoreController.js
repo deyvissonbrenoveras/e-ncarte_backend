@@ -239,6 +239,9 @@ class StoreController {
     str = await Store.findByPk(id);
     await str.update(req.body);
 
+    if (!str) {
+      return res.status(400).json({ error: 'A loja informada não existe' });
+    }
     return res.json(str);
   }
 }
