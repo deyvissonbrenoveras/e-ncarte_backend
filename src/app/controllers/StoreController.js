@@ -133,6 +133,15 @@ class StoreController {
       instagram: Yup.string().max(100),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
+      shelfLife: Yup.string()
+        .nullable()
+        .test('shelfLife', 'erro', function checkShelfLife(shelfLife) {
+          const timeStamp = Date.parse(shelfLife);
+          return (
+            (!Number.isNaN(timeStamp) && timeStamp >= new Date(2020, 0, 1)) ||
+            shelfLife === null
+          );
+        }),
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Loja não validada' });
@@ -192,6 +201,15 @@ class StoreController {
       instagram: Yup.string().max(100),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
+      shelfLife: Yup.string()
+        .nullable()
+        .test('shelfLife', 'erro', function checkShelfLife(shelfLife) {
+          const timeStamp = Date.parse(shelfLife);
+          return (
+            (!Number.isNaN(timeStamp) && timeStamp >= new Date(2020, 0, 1)) ||
+            shelfLife === null
+          );
+        }),
     });
 
     if (!(await schema.isValid(req.body))) {
