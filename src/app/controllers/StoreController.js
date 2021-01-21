@@ -37,6 +37,7 @@ class StoreController {
             'id',
             'name',
             'description',
+            'priceType',
             'price',
             'featured',
             'categoryId',

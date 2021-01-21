@@ -4,6 +4,7 @@ import Product from '../models/Product';
 import Category from '../models/Category';
 import File from '../models/File';
 import Store from '../models/Store';
+import PriceTypeEnum from '../util/PriceTypeEnum';
 
 class ProductController {
   async index(req, res) {
@@ -13,6 +14,7 @@ class ProductController {
         'id',
         'name',
         'description',
+        'priceType',
         'price',
         'featured',
         'categoryId',
@@ -73,13 +75,26 @@ class ProductController {
       name: Yup.string().max(100).required(),
       fileId: Yup.number().positive().integer().required(),
       description: Yup.string().max(1000),
-      price: Yup.number().required(),
+      priceType: Yup.number()
+        .min(PriceTypeEnum.DEFAULT)
+        .max(PriceTypeEnum.SPECIAL_OFFER)
+        .notRequired(),
+      price: Yup.number().when('priceType', {
+        is: PriceTypeEnum.SPECIAL_OFFER,
+        then: Yup.number().nullable().notRequired(),
+        otherwise: Yup.number().positive().required(),
+      }),
       featured: Yup.boolean(),
       categoryId: Yup.number().positive().nullable(true),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Produto não validado' });
+    }
+
+    // CHANGE PRICE IF PRICE TYPE IS SPECIAL_OFFER
+    if (req.body.priceType === PriceTypeEnum.SPECIAL_OFFER) {
+      req.body.price = 0;
     }
 
     // CHECK USER PRIVILEGES
@@ -111,12 +126,25 @@ class ProductController {
       name: Yup.string().required(),
       fileId: Yup.number().positive().integer().required(),
       description: Yup.string(),
-      price: Yup.number().required(),
+      priceType: Yup.number()
+        .min(PriceTypeEnum.DEFAULT)
+        .max(PriceTypeEnum.SPECIAL_OFFER)
+        .notRequired(),
+      price: Yup.number().when('priceType', {
+        is: PriceTypeEnum.SPECIAL_OFFER,
+        then: Yup.number().nullable().notRequired(),
+        otherwise: Yup.number().positive().required(),
+      }),
       featured: Yup.boolean().notRequired(),
       categoryId: Yup.number().positive().nullable(true),
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Produto não validado' });
+    }
+
+    // CHANGE PRICE IF PRICE TYPE IS SPECIAL_OFFER
+    if (req.body.priceType === PriceTypeEnum.SPECIAL_OFFER) {
+      req.body.price = 0;
     }
 
     // CHECK IF PRODUCT EXISTS
