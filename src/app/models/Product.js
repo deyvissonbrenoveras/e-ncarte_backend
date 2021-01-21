@@ -6,6 +6,7 @@ class Product extends Model {
       {
         name: Sequelize.STRING,
         description: Sequelize.STRING,
+        priceType: Sequelize.NUMBER,
         price: Sequelize.NUMBER,
         featured: Sequelize.BOOLEAN,
       },
