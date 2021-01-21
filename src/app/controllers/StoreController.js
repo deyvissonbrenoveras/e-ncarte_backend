@@ -134,13 +134,24 @@ class StoreController {
       instagram: Yup.string().max(100),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
-      shelfLife: Yup.string()
+      shelfLifeStart: Yup.string()
         .nullable()
-        .test('shelfLife', 'erro', function checkShelfLife(shelfLife) {
-          const timeStamp = Date.parse(shelfLife);
+        .test('shelfLifeStart', 'erro', function checkShelfLife(
+          shelfLifeStart
+        ) {
+          const timeStamp = Date.parse(shelfLifeStart);
           return (
             (!Number.isNaN(timeStamp) && timeStamp >= new Date(2020, 0, 1)) ||
-            shelfLife === null
+            shelfLifeStart === null
+          );
+        }),
+      shelfLifeEnd: Yup.string()
+        .nullable()
+        .test('shelfLifeEnd', 'erro', function checkShelfLife(shelfLifeEnd) {
+          const timeStamp = Date.parse(shelfLifeEnd);
+          return (
+            (!Number.isNaN(timeStamp) && timeStamp >= new Date(2020, 0, 1)) ||
+            shelfLifeEnd === null
           );
         }),
     });
@@ -171,7 +182,7 @@ class StoreController {
       whatsapp,
       instagram,
       facebook,
-      shelfLife,
+      shelfLifeEnd,
     } = await Store.create(req.body);
 
     return res.json({
@@ -182,7 +193,7 @@ class StoreController {
       whatsapp,
       instagram,
       facebook,
-      shelfLife,
+      shelfLifeEnd,
     });
   }
 
@@ -202,13 +213,24 @@ class StoreController {
       instagram: Yup.string().max(100),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
-      shelfLife: Yup.string()
+      shelfLifeStart: Yup.string()
         .nullable()
-        .test('shelfLife', 'erro', function checkShelfLife(shelfLife) {
-          const timeStamp = Date.parse(shelfLife);
+        .test('shelfLifeStart', 'erro', function checkShelfLife(
+          shelfLifeStart
+        ) {
+          const timeStamp = Date.parse(shelfLifeStart);
           return (
             (!Number.isNaN(timeStamp) && timeStamp >= new Date(2020, 0, 1)) ||
-            shelfLife === null
+            shelfLifeStart === null
+          );
+        }),
+      shelfLifeEnd: Yup.string()
+        .nullable()
+        .test('shelfLifeEnd', 'erro', function checkShelfLife(shelfLifeEnd) {
+          const timeStamp = Date.parse(shelfLifeEnd);
+          return (
+            (!Number.isNaN(timeStamp) && timeStamp >= new Date(2020, 0, 1)) ||
+            shelfLifeEnd === null
           );
         }),
     });
