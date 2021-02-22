@@ -24,7 +24,9 @@ const routes = new Router();
 routes.post('/sessions', SessionController.store);
 routes.post('/users', UserController.store);
 
+routes.get('/stores', StoreController.show);
 routes.get('/store', StoreController.index);
+
 // AUTHENTICATION MIDLEWARE
 routes.use(authMiddleware);
 // AUTHENTICATION REQUIRED FOR ROUTES BELOW
@@ -32,7 +34,6 @@ routes.get('/users', UserController.show);
 routes.get('/users/:id', UserController.index);
 routes.put('/users/:id', UserController.update);
 
-routes.get('/stores', StoreController.show);
 routes.post('/stores', StoreController.store);
 routes.put('/stores/:id', StoreController.update);
 

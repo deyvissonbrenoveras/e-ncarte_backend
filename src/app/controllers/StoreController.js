@@ -1,4 +1,6 @@
 import * as Yup from 'yup';
+import jwt from 'jsonwebtoken';
+import authConfig from '../../config/auth';
 
 import Store from '../models/Store';
 import File from '../models/File';
@@ -84,39 +86,38 @@ class StoreController {
   }
 
   async show(req, res) {
-    const user = await User.findByPk(req.userId);
+    const include = [
+      {
+        model: File,
+        as: 'logo',
+        attributes: ['id', 'url', 'path'],
+      },
+      {
+        model: File,
+        as: 'cover',
+        attributes: ['id', 'url', 'path'],
+      },
+    ];
     let stores;
+    // CHECK IF TOKE IS SENT AND RETURN THE CORRESPONDING STORES
+    try {
+      const token = req.headers.authorization.split(' ')[1];
+      const validated = await jwt.verify(token, authConfig.secret);
+      const user = await User.findByPk(validated.id);
 
-    // DETERMINING WHICH STORES WILL BE RETURNED UNDER THE USER PRIVILEGE
-    if (user.isAdmin()) {
+      // DETERMINING WHICH STORES WILL BE RETURNED UNDER THE USER PRIVILEGE
+      if (user.isAdmin()) {
+        stores = await Store.findAll({
+          include,
+        });
+      } else if (user.isStoreAdmin()) {
+        stores = await user.getStores({
+          include,
+        });
+      }
+    } catch (err) {
       stores = await Store.findAll({
-        include: [
-          {
-            model: File,
-            as: 'logo',
-            attributes: ['id', 'url', 'path'],
-          },
-          {
-            model: File,
-            as: 'cover',
-            attributes: ['id', 'url', 'path'],
-          },
-        ],
-      });
-    } else if (user.isStoreAdmin()) {
-      stores = await user.getStores({
-        include: [
-          {
-            model: File,
-            as: 'logo',
-            attributes: ['id', 'url', 'path'],
-          },
-          {
-            model: File,
-            as: 'cover',
-            attributes: ['id', 'url', 'path'],
-          },
-        ],
+        include,
       });
     }
 
