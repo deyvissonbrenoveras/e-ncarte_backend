@@ -12,7 +12,7 @@ import Partner from '../models/Partner';
 class StoreController {
   async index(req, res) {
     const { url, id } = req.query;
-    const where = url ? { url } : { id };
+    const where = url ? { url, active: true } : { id };
 
     const str = await Store.findOne({
       where,
@@ -86,6 +86,7 @@ class StoreController {
   }
 
   async show(req, res) {
+    const showInactive = req.query.showInactive === 'true';
     const include = [
       {
         model: File,
@@ -98,6 +99,7 @@ class StoreController {
         attributes: ['id', 'url', 'path'],
       },
     ];
+    const where = showInactive ? {} : { active: true };
     let stores;
     // CHECK IF TOKE IS SENT AND RETURN THE CORRESPONDING STORES
     try {
@@ -109,15 +111,18 @@ class StoreController {
       if (user.isAdmin()) {
         stores = await Store.findAll({
           include,
+          where,
         });
       } else if (user.isStoreAdmin()) {
         stores = await user.getStores({
           include,
+          where,
         });
       }
     } catch (err) {
       stores = await Store.findAll({
         include,
+        where,
       });
     }
 
