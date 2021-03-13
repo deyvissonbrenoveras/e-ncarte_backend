@@ -17,6 +17,7 @@ class PartnerController {
         'sponsorship',
         'facebook',
         'instagram',
+        'customizableField',
       ],
       include: [
         {
@@ -71,6 +72,7 @@ class PartnerController {
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
       sponsorship: Yup.boolean(),
+      customizableField: Yup.string(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -113,6 +115,7 @@ class PartnerController {
       sponsorship: Yup.boolean(),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
+      customizableField: Yup.string(),
     });
 
     if (!(await schema.isValid(req.body))) {
