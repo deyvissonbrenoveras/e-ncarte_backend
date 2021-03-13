@@ -69,6 +69,7 @@ class StoreController {
             'agentWhatsapp',
             'facebook',
             'instagram',
+            'customizableField',
           ],
           include: {
             model: File,

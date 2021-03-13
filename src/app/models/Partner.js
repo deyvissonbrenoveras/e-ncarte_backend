@@ -11,6 +11,7 @@ class Partner extends Model {
         instagram: Sequelize.STRING,
         facebook: Sequelize.STRING,
         sponsorship: Sequelize.BOOLEAN,
+        customizableField: Sequelize.STRING,
       },
       {
         sequelize,
