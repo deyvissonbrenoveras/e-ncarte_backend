@@ -67,7 +67,7 @@ class PartnerController {
       // agentWhatsapp: Yup.number().test((value) => {
       //   return value ? value.toString().length <= 11 : true;
       // }),
-      agentWhatsapp: Yup.number(),
+      agentWhatsapp: Yup.string().nullable().notRequired(),
       regionalAgent: Yup.string().max(50),
       whatsapp: Yup.string().max(100),
       facebook: Yup.string().max(100),
@@ -110,7 +110,7 @@ class PartnerController {
       // agentWhatsapp: Yup.number().test((value) => {
       //   return value ? value.toString().length <= 11 : true;
       // }),
-      agentWhatsapp: Yup.number(),
+      agentWhatsapp: Yup.string().nullable().notRequired(),
       regionalAgent: Yup.string().max(50),
       sponsorship: Yup.boolean(),
       whatsapp: Yup.string().max(100),
