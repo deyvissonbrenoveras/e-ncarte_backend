@@ -3,6 +3,8 @@ import Partner from '../models/Partner';
 import File from '../models/File';
 import User from '../models/User';
 import Store from '../models/Store';
+import Product from '../models/Product';
+import Category from '../models/Category';
 
 class PartnerController {
   async index(req, res) {
@@ -29,6 +31,31 @@ class PartnerController {
           model: Store,
           as: 'stores',
           attributes: ['id'],
+        },
+        {
+          model: Product,
+          as: 'products',
+          attributes: [
+            'id',
+            'name',
+            'description',
+            'priceType',
+            'price',
+            'featured',
+            'categoryId',
+          ],
+          include: [
+            {
+              model: File,
+              as: 'image',
+              attributes: ['id', 'url', 'path'],
+            },
+            {
+              model: Category,
+              as: 'category',
+              attributes: ['id', 'name'],
+            },
+          ],
         },
       ],
     });

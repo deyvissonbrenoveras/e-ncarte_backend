@@ -3,7 +3,7 @@ import Product from '../models/Product';
 import Store from '../models/Store';
 import User from '../models/User';
 
-class ProductStore {
+class ProductStoreController {
   async store(req, res) {
     const { productId } = req.params;
     const { stores } = req.body;
@@ -106,4 +106,4 @@ class ProductStore {
   }
 }
 
-export default new ProductStore();
+export default new ProductStoreController();

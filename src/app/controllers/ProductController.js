@@ -4,6 +4,7 @@ import Product from '../models/Product';
 import Category from '../models/Category';
 import File from '../models/File';
 import Store from '../models/Store';
+import Partner from '../models/Partner';
 import PriceTypeEnum from '../util/PriceTypeEnum';
 
 class ProductController {
@@ -33,6 +34,11 @@ class ProductController {
         {
           model: Store,
           as: 'stores',
+          attributes: ['id'],
+        },
+        {
+          model: Partner,
+          as: 'partners',
           attributes: ['id'],
         },
       ],
