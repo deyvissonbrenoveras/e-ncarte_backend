@@ -29,6 +29,11 @@ class Product extends Model {
       through: 'Products_Stores',
       foreignKey: 'productId',
     });
+    this.belongsToMany(models.Partner, {
+      as: 'partners',
+      through: 'Products_Partners',
+      foreignKey: 'productId',
+    });
   }
 }
 export default Product;

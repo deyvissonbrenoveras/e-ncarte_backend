@@ -71,11 +71,35 @@ class StoreController {
             'instagram',
             'customizableField',
           ],
-          include: {
-            model: File,
-            as: 'logo',
-            attributes: ['id', 'url', 'path'],
-          },
+          include: [
+            {
+              model: File,
+              as: 'logo',
+              attributes: ['id', 'url', 'path'],
+            },
+            {
+              model: Product,
+              as: 'products',
+              attributes: ['id', 'name', 'description'],
+              include: [
+                {
+                  model: File,
+                  as: 'image',
+                  attributes: ['id', 'url', 'path'],
+                },
+                {
+                  model: Store,
+                  as: 'stores',
+                  attributes: ['id', 'name', 'url'],
+                  include: {
+                    model: File,
+                    as: 'logo',
+                    attributes: ['id', 'url', 'path'],
+                  },
+                },
+              ],
+            },
+          ],
         },
       ],
     });

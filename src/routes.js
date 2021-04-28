@@ -13,9 +13,10 @@ import StoreController from './app/controllers/StoreController';
 import UserStoreController from './app/controllers/UserStoreController';
 import ProductController from './app/controllers/ProductController';
 import CategoryController from './app/controllers/CategoryController';
-import ProductStore from './app/controllers/ProductStore';
+import ProductStoreController from './app/controllers/ProductStoreController';
 import PartnerController from './app/controllers/PartnerController';
 import PartnerStoreController from './app/controllers/PartnerStoreController';
+import ProductPartnerController from './app/controllers/ProductPartnerController';
 
 const upload = multer(multerOptions);
 
@@ -50,8 +51,11 @@ routes.get('/categories', CategoryController.show);
 routes.post('/categories', CategoryController.store);
 routes.put('/categories/:id', CategoryController.update);
 
-routes.post('/products_stores/:productId', ProductStore.store);
-routes.put('/products_stores', ProductStore.update);
+routes.post('/products_stores/:productId', ProductStoreController.store);
+routes.put('/products_stores', ProductStoreController.update);
+
+routes.post('/products_partners/:productId', ProductPartnerController.store);
+routes.put('/products_partners', ProductPartnerController.update);
 
 routes.get('/partners/:id', PartnerController.index);
 routes.get('/partners', PartnerController.show);
