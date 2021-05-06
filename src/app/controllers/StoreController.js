@@ -80,7 +80,14 @@ class StoreController {
             {
               model: Product,
               as: 'products',
-              attributes: ['id', 'name', 'description'],
+              attributes: [
+                'id',
+                'name',
+                'description',
+                'price',
+                'priceType',
+                'featured',
+              ],
               include: [
                 {
                   model: File,
