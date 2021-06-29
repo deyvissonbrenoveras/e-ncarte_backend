@@ -28,6 +28,8 @@ routes.post('/users', UserController.store);
 routes.get('/stores', StoreController.show);
 routes.get('/store', StoreController.index);
 
+routes.get('/partners/:id', PartnerController.index);
+
 // AUTHENTICATION MIDLEWARE
 routes.use(authMiddleware);
 // AUTHENTICATION REQUIRED FOR ROUTES BELOW
@@ -57,7 +59,6 @@ routes.put('/products_stores', ProductStoreController.update);
 routes.post('/products_partners/:productId', ProductPartnerController.store);
 routes.put('/products_partners', ProductPartnerController.update);
 
-routes.get('/partners/:id', PartnerController.index);
 routes.get('/partners', PartnerController.show);
 routes.post('/partners', PartnerController.store);
 routes.put('/partners/:id', PartnerController.update);

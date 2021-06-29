@@ -55,6 +55,16 @@ class PartnerController {
               as: 'category',
               attributes: ['id', 'name'],
             },
+            {
+              model: Store,
+              as: 'stores',
+              attributes: ['id', 'name', 'url'],
+              include: {
+                model: File,
+                as: 'logo',
+                attributes: ['id', 'url', 'path'],
+              },
+            },
           ],
         },
       ],
