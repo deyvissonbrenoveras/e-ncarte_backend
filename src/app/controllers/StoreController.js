@@ -14,23 +14,42 @@ class StoreController {
     const { url, id } = req.query;
     const where = url ? { url, active: true } : { id };
 
+    const attributes = url
+      ? [
+          'id',
+          'name',
+          'url',
+          'address',
+          'city',
+          'phone',
+          'facebook',
+          'whatsapp',
+          'instagram',
+          'shelfLifeStart',
+          'shelfLifeEnd',
+        ]
+      : null;
+
+    const fileAttributes = url ? ['url', 'path'] : ['id', 'url', 'path'];
+
     const str = await Store.findOne({
+      attributes,
       where,
       include: [
         {
           model: File,
           as: 'logo',
-          attributes: ['id', 'url', 'path'],
+          attributes: fileAttributes,
         },
         {
           model: File,
           as: 'cover',
-          attributes: ['id', 'url', 'path'],
+          attributes: fileAttributes,
         },
         {
           model: User,
           as: 'admins',
-          attributes: ['id', 'name', 'email'],
+          attributes: url ? [] : ['id', 'name', 'email'],
         },
         {
           model: Product,
@@ -48,12 +67,12 @@ class StoreController {
             {
               model: File,
               as: 'image',
-              attributes: ['id', 'url', 'path'],
+              fileAttributes,
             },
             {
               model: Category,
               as: 'category',
-              attributes: ['id', 'name'],
+              fileAttributes,
             },
           ],
         },
@@ -75,7 +94,7 @@ class StoreController {
             {
               model: File,
               as: 'logo',
-              attributes: ['id', 'url', 'path'],
+              attributes: fileAttributes,
             },
           ],
         },
