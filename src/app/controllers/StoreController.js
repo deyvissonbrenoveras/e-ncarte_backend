@@ -47,6 +47,11 @@ class StoreController {
           attributes: fileAttributes,
         },
         {
+          model: File,
+          as: 'secondaryCover',
+          attributes: fileAttributes,
+        },
+        {
           model: User,
           as: 'admins',
           attributes: url ? [] : ['id', 'name', 'email'],
@@ -118,6 +123,11 @@ class StoreController {
       {
         model: File,
         as: 'cover',
+        attributes: ['id', 'url', 'path'],
+      },
+      {
+        model: File,
+        as: 'secondaryCover',
         attributes: ['id', 'url', 'path'],
       },
     ];
@@ -232,7 +242,8 @@ class StoreController {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
       logoId: Yup.number(),
-      coverId: Yup.number(),
+      coverId: Yup.number().nullable(),
+      secondaryCoverId: Yup.number().nullable(),
       name: Yup.string().max(50).required(),
       url: Yup.string().max(50).required(),
       address: Yup.string().max(100),
@@ -288,6 +299,7 @@ class StoreController {
 
     // UPDATE
     str = await Store.findByPk(id);
+    console.log('AQUIII:', req.body);
     await str.update(req.body);
 
     if (!str) {
