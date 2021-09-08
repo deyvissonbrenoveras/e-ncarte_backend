@@ -5,6 +5,7 @@ class Store extends Model {
     super.init(
       {
         coverId: Sequelize.INTEGER,
+        secondaryCoverId: Sequelize.INTEGER,
         logoId: Sequelize.INTEGER,
         name: Sequelize.STRING,
         url: Sequelize.STRING,
@@ -28,6 +29,10 @@ class Store extends Model {
   static associate(models) {
     this.belongsTo(models.File, { foreignKey: 'logoId', as: 'logo' });
     this.belongsTo(models.File, { foreignKey: 'coverId', as: 'cover' });
+    this.belongsTo(models.File, {
+      foreignKey: 'secondaryCoverId',
+      as: 'secondaryCover',
+    });
     this.belongsToMany(models.User, {
       as: 'admins',
       through: 'Users_Stores',
