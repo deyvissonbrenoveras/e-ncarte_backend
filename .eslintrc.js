@@ -16,5 +16,6 @@ module.exports = {
     'jsx-quotes': ['error', 'prefer-single'],
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',
+    endOfLine: 'auto',
   },
 };
