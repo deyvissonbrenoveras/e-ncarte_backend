@@ -18,6 +18,9 @@ class Store extends Model {
         active: Sequelize.BOOLEAN,
         shelfLifeStart: Sequelize.DATE,
         shelfLifeEnd: Sequelize.DATE,
+        primaryColor: Sequelize.STRING,
+        secondaryColor: Sequelize.STRING,
+        tertiaryColor: Sequelize.STRING,
       },
       {
         sequelize,
