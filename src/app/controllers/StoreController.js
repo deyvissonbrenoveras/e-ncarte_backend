@@ -30,6 +30,7 @@ class StoreController {
           'primaryColor',
           'secondaryColor',
           'tertiaryColor',
+          'quaternaryColor',
         ]
       : null;
 
@@ -198,6 +199,7 @@ class StoreController {
       primaryColor: Yup.string().required(),
       secondaryColor: Yup.string().required(),
       tertiaryColor: Yup.string().required(),
+      quaternaryColor: Yup.string().required(),
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Loja não validada' });
@@ -285,6 +287,9 @@ class StoreController {
         .matches('^#(?:[0-9a-fA-F]{3}){1,2}$')
         .required(),
       tertiaryColor: Yup.string()
+        .matches('^#(?:[0-9a-fA-F]{3}){1,2}$')
+        .required(),
+      quaternaryColor: Yup.string()
         .matches('^#(?:[0-9a-fA-F]{3}){1,2}$')
         .required(),
     });

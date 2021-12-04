@@ -21,6 +21,7 @@ class Store extends Model {
         primaryColor: Sequelize.STRING,
         secondaryColor: Sequelize.STRING,
         tertiaryColor: Sequelize.STRING,
+        quaternaryColor: Sequelize.STRING,
       },
       {
         sequelize,
