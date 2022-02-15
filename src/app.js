@@ -27,10 +27,13 @@ class App {
 
   routes() {
     this.server.use('/api', routes);
-
+    //HOMEPAGE;
+    this.server.get('/', (req, res) => {
+      res.sendFile(resolve(__dirname, '../client/homepage/index.html'));
+    });
     // FRONTEND REACT
     this.server.get('/*', (req, res) => {
-      res.sendFile(resolve(__dirname, '../client/index.html'));
+      res.sendFile(resolve(__dirname, '../client/webapp/index.html'));
     });
   }
 }
