@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import Product from '../models/Product';
 import Store from '../models/Store';
 import User from '../models/User';
+import ProductStore from '../models/ProductStore';
 
 class ProductStoreController {
   async store(req, res) {
@@ -11,8 +12,14 @@ class ProductStoreController {
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
       productId: Yup.number().positive().required(),
-      stores: Yup.array().of(Yup.number()).required(),
+      stores: Yup.array().of(
+        Yup.object().shape({
+          storeId: Yup.number().positive().integer().required(),
+          customPrice: Yup.number().positive().nullable(),
+        })
+      ),
     });
+
     if (!(await schema.isValid({ productId, stores }))) {
       return res
         .status(400)
@@ -21,8 +28,9 @@ class ProductStoreController {
 
     // CHECK USER PRIVILEGIES
     const user = await User.findByPk(req.userId);
-
-    const storesAllowed = await user.hasStores(stores);
+    const storesAllowed = await user.hasStores(
+      stores.map((store) => store.storeId)
+    );
 
     if (!user.isAdmin() && !storesAllowed) {
       return res.status(401).json({
@@ -35,8 +43,21 @@ class ProductStoreController {
     if (!product) {
       return res.status(400).json({ error: 'O produto informado não existe' });
     }
-    const response = await product.addStores(stores);
-    return res.json(response);
+
+    stores.forEach(async (store) => {
+      const productStore = await ProductStore.findOne({
+        where: { storeId: store.storeId, productId },
+      });
+
+      if (productStore) {
+        productStore.customPrice = store.customPrice;
+        await productStore.save();
+      } else {
+        await ProductStore.create({ ...store, productId });
+      }
+    });
+
+    return res.json();
   }
 
   async update(req, res) {
