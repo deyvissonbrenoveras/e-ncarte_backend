@@ -6,10 +6,11 @@ import Store from '../app/models/Store';
 import Product from '../app/models/Product';
 import Category from '../app/models/Category';
 import Partner from '../app/models/Partner';
+import ProductStore from '../app/models/ProductStore';
 
 import databaseConfig from '../config/database';
 
-const models = [User, File, Store, Product, Category, Partner];
+const models = [User, File, Store, Product, Category, Partner, ProductStore];
 
 class Database {
   constructor() {

@@ -35,6 +35,7 @@ class ProductController {
           model: Store,
           as: 'stores',
           attributes: ['id'],
+          through: { attributes: ['customPrice'] },
         },
         {
           model: Partner,

@@ -72,6 +72,7 @@ class StoreController {
             'featured',
             'categoryId',
           ],
+          through: { attributes: ['customPrice'] },
           include: [
             {
               model: File,
