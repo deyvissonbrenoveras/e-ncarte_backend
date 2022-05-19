@@ -126,14 +126,10 @@ class ProductStoreController {
           .json({ error: 'O produto informado não existe' });
       }
       const response = await product.removeStores(stores);
+
       stores.forEach((storeId) => {
         product.stores.forEach(async (store) => {
           if (storeId == store.id) {
-            console.log('StoreId: ', storeId);
-            console.log(
-              'customPrice: ',
-              store.Products_Stores.dataValues.customPrice
-            );
             await Log.create({
               userId,
               productId,
@@ -145,6 +141,7 @@ class ProductStoreController {
           }
         });
       });
+
       return res.json(response);
     }
 
@@ -160,11 +157,36 @@ class ProductStoreController {
       }
 
       // CHECK IF STORE EXISTS
-      const store = await Store.findByPk(storeId);
+      const store = await Store.findByPk(storeId, {
+        include: [
+          {
+            model: Product,
+            as: 'products',
+            attributes: ['id'],
+            through: { attributes: ['customPrice'] },
+          },
+        ],
+      });
       if (!store) {
         return res.status(400).json({ error: 'A loja informada não existe' });
       }
       const response = await store.removeProducts(products);
+
+      products.forEach((productId) => {
+        store.products.forEach(async (product) => {
+          if (productId == product.id) {
+            await Log.create({
+              userId,
+              productId,
+              storeId: store.id,
+              oldValue: product.Products_Stores.dataValues.customPrice,
+              newValue: '',
+              field: 'Preço personalizado',
+            });
+          }
+        });
+      });
+
       return res.json(response);
     }
     return res.json();
