@@ -5,6 +5,8 @@ import Category from '../models/Category';
 import File from '../models/File';
 import Store from '../models/Store';
 import Partner from '../models/Partner';
+import Log from '../models/Log';
+
 import PriceTypeEnum from '../util/PriceTypeEnum';
 
 class ProductController {
@@ -168,9 +170,9 @@ class ProductController {
 
     // CHECK USER PRIVILEGES
     // STORE VALIDATION IF USER ISN'T ADMIN
-    const adminUser = await User.findByPk(req.userId);
-    if (!adminUser.isAdmin()) {
-      const userStores = await adminUser.getStores();
+    const user = await User.findByPk(req.userId);
+    if (!user.isAdmin()) {
+      const userStores = await user.getStores();
       let exist = false;
       for (let i = 0; i < userStores.length; i += 1) {
         for (let k = 0; k < product.stores.length; k += 1) {
@@ -197,7 +199,26 @@ class ProductController {
       }
     }
 
+    const oldPrice =
+      product.priceType === PriceTypeEnum.SPECIAL_OFFER
+        ? 'OFERTA ESPECIAL'
+        : product.price;
+
+    const newPrice =
+      req.body.priceType === PriceTypeEnum.SPECIAL_OFFER
+        ? 'OFERTA ESPECIAL'
+        : req.body.price;
+
     await product.update(req.body);
+
+    oldPrice != newPrice &&
+      (await Log.create({
+        userId: user.id,
+        productId: id,
+        oldValue: oldPrice,
+        newValue: newPrice,
+        field: 'Preço padrão',
+      }));
 
     return res.json(product);
   }
