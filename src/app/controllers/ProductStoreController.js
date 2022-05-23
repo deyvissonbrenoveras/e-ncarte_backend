@@ -52,23 +52,29 @@ class ProductStoreController {
       });
 
       let oldPrice = '';
+      let newPrice;
 
       if (productStore) {
-        oldPrice = productStore.customPrice;
+        oldPrice = productStore.customPrice || '';
         productStore.customPrice = store.customPrice;
         await productStore.save();
       } else {
         await ProductStore.create({ ...store, productId });
       }
 
-      await Log.create({
-        userId,
-        productId,
-        storeId: store.storeId,
-        oldValue: oldPrice,
-        newValue: store.customPrice,
-        field: 'Preço personalizado',
-      });
+      newPrice = store.customPrice || '';
+      console.log('Old: ', oldPrice);
+      console.log('New: ', newPrice);
+      if (oldPrice != store.customPrice) {
+        await Log.create({
+          userId,
+          productId,
+          storeId: store.storeId,
+          oldValue: oldPrice,
+          newValue: newPrice,
+          field: 'Preço personalizado',
+        });
+      }
     });
 
     return res.json();
@@ -134,7 +140,7 @@ class ProductStoreController {
               userId,
               productId,
               storeId: store.id,
-              oldValue: store.Products_Stores.dataValues.customPrice,
+              oldValue: store.Products_Stores.dataValues.customPrice || '',
               newValue: '',
               field: 'Preço personalizado',
             });
@@ -179,7 +185,7 @@ class ProductStoreController {
               userId,
               productId,
               storeId: store.id,
-              oldValue: product.Products_Stores.dataValues.customPrice,
+              oldValue: product.Products_Stores.dataValues.customPrice || '',
               newValue: '',
               field: 'Preço personalizado',
             });
