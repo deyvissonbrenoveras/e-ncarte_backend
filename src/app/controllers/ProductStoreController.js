@@ -3,11 +3,13 @@ import Product from '../models/Product';
 import Store from '../models/Store';
 import User from '../models/User';
 import ProductStore from '../models/ProductStore';
+import Log from '../models/Log';
 
 class ProductStoreController {
   async store(req, res) {
     const { productId } = req.params;
     const { stores } = req.body;
+    const { userId } = req;
 
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
@@ -27,7 +29,7 @@ class ProductStoreController {
     }
 
     // CHECK USER PRIVILEGIES
-    const user = await User.findByPk(req.userId);
+    const user = await User.findByPk(userId);
     const storesAllowed = await user.hasStores(
       stores.map((store) => store.storeId)
     );
@@ -49,11 +51,29 @@ class ProductStoreController {
         where: { storeId: store.storeId, productId },
       });
 
+      let oldPrice = '';
+      let newPrice;
+
       if (productStore) {
+        oldPrice = productStore.customPrice || '';
         productStore.customPrice = store.customPrice;
         await productStore.save();
       } else {
         await ProductStore.create({ ...store, productId });
+      }
+
+      newPrice = store.customPrice || '';
+      console.log('Old: ', oldPrice);
+      console.log('New: ', newPrice);
+      if (oldPrice != store.customPrice) {
+        await Log.create({
+          userId,
+          productId,
+          storeId: store.storeId,
+          oldValue: oldPrice,
+          newValue: newPrice,
+          field: 'Preço personalizado',
+        });
       }
     });
 
@@ -63,6 +83,8 @@ class ProductStoreController {
   async update(req, res) {
     const { storeId, productId } = req.query;
     const { stores, products } = req.body;
+    const { userId } = req;
+
     // SCHEMA VALIDATION
     const schema = Yup.object().shape({
       productId: Yup.number().positive(),
@@ -84,7 +106,7 @@ class ProductStoreController {
 
     if (productId) {
       // CHECK USER PRIVILEGIES
-      const user = await User.findByPk(req.userId);
+      const user = await User.findByPk(userId);
       const storesAllowed = await user.hasStores(stores);
 
       if (!user.isAdmin() && !storesAllowed) {
@@ -94,13 +116,38 @@ class ProductStoreController {
       }
 
       // CHECK IF PRODUCT EXISTS
-      const product = await Product.findByPk(productId);
+      const product = await Product.findByPk(productId, {
+        include: [
+          {
+            model: Store,
+            as: 'stores',
+            attributes: ['id'],
+            through: { attributes: ['customPrice'] },
+          },
+        ],
+      });
       if (!product) {
         return res
           .status(400)
           .json({ error: 'O produto informado não existe' });
       }
       const response = await product.removeStores(stores);
+
+      stores.forEach((storeId) => {
+        product.stores.forEach(async (store) => {
+          if (storeId == store.id) {
+            await Log.create({
+              userId,
+              productId,
+              storeId: store.id,
+              oldValue: store.Products_Stores.dataValues.customPrice || '',
+              newValue: '',
+              field: 'Preço personalizado',
+            });
+          }
+        });
+      });
+
       return res.json(response);
     }
 
@@ -116,11 +163,36 @@ class ProductStoreController {
       }
 
       // CHECK IF STORE EXISTS
-      const store = await Store.findByPk(storeId);
+      const store = await Store.findByPk(storeId, {
+        include: [
+          {
+            model: Product,
+            as: 'products',
+            attributes: ['id'],
+            through: { attributes: ['customPrice'] },
+          },
+        ],
+      });
       if (!store) {
         return res.status(400).json({ error: 'A loja informada não existe' });
       }
       const response = await store.removeProducts(products);
+
+      products.forEach((productId) => {
+        store.products.forEach(async (product) => {
+          if (productId == product.id) {
+            await Log.create({
+              userId,
+              productId,
+              storeId: store.id,
+              oldValue: product.Products_Stores.dataValues.customPrice || '',
+              newValue: '',
+              field: 'Preço personalizado',
+            });
+          }
+        });
+      });
+
       return res.json(response);
     }
     return res.json();

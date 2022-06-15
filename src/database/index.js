@@ -7,10 +7,20 @@ import Product from '../app/models/Product';
 import Category from '../app/models/Category';
 import Partner from '../app/models/Partner';
 import ProductStore from '../app/models/ProductStore';
+import Log from '../app/models/Log';
 
 import databaseConfig from '../config/database';
 
-const models = [User, File, Store, Product, Category, Partner, ProductStore];
+const models = [
+  User,
+  File,
+  Store,
+  Product,
+  Category,
+  Partner,
+  ProductStore,
+  Log,
+];
 
 class Database {
   constructor() {
