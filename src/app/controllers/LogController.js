@@ -32,6 +32,7 @@ class LogController {
           [Op.between]: [startDate, endDate],
         },
       },
+      order: [['createdAt', 'DESC']],
     });
     res.json(logs);
   }
