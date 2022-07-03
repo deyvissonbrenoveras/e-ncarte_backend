@@ -18,6 +18,7 @@ import PartnerController from './app/controllers/PartnerController';
 import PartnerStoreController from './app/controllers/PartnerStoreController';
 import ProductPartnerController from './app/controllers/ProductPartnerController';
 import LogController from './app/controllers/LogController';
+import LocationController from './app/controllers/LocationController';
 
 const upload = multer(multerOptions);
 
@@ -70,4 +71,8 @@ routes.put('/partners_stores/:partnerId', PartnerStoreController.delete);
 routes.post('/files', upload.single('file'), FileController.store);
 
 routes.get('/logs', LogController.show);
+
+routes.get('/locations/states', LocationController.showStates);
+routes.get('/locations/cities', LocationController.showCities);
+
 export default routes;
