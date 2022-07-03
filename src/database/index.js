@@ -8,6 +8,7 @@ import Category from '../app/models/Category';
 import Partner from '../app/models/Partner';
 import ProductStore from '../app/models/ProductStore';
 import Log from '../app/models/Log';
+import State from '../app/models/State';
 
 import databaseConfig from '../config/database';
 
@@ -20,6 +21,7 @@ const models = [
   Partner,
   ProductStore,
   Log,
+  State,
 ];
 
 class Database {
