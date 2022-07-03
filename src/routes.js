@@ -73,4 +73,6 @@ routes.post('/files', upload.single('file'), FileController.store);
 routes.get('/logs', LogController.show);
 
 routes.get('/locations/states', LocationController.showStates);
+routes.get('/locations/cities', LocationController.showCities);
+
 export default routes;
