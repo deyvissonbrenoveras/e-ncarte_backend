@@ -74,5 +74,6 @@ routes.get('/logs', LogController.show);
 
 routes.get('/locations/states', LocationController.showStates);
 routes.get('/locations/cities', LocationController.showCities);
+routes.get('/locations/active-cities', LocationController.showActiveCities);
 
 export default routes;
