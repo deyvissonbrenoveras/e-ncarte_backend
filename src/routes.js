@@ -32,6 +32,8 @@ routes.get('/store', StoreController.index);
 
 routes.get('/partners/:id', PartnerController.index);
 
+routes.get('/locations/active-cities', LocationController.showActiveCities);
+
 // AUTHENTICATION MIDLEWARE
 routes.use(authMiddleware);
 // AUTHENTICATION REQUIRED FOR ROUTES BELOW
@@ -74,6 +76,5 @@ routes.get('/logs', LogController.show);
 
 routes.get('/locations/states', LocationController.showStates);
 routes.get('/locations/cities', LocationController.showCities);
-routes.get('/locations/active-cities', LocationController.showActiveCities);
 
 export default routes;
