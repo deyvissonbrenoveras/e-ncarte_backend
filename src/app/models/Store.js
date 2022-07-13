@@ -52,6 +52,7 @@ class Store extends Model {
       through: 'Partners_Stores',
       foreignKey: 'storeId',
     });
+    this.belongsTo(models.City, { foreignKey: 'cityId', as: 'city' });
   }
 }
 
