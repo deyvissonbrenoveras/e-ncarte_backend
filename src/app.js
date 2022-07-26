@@ -19,7 +19,7 @@ class App {
     this.server.use(express.json());
     this.server.use(
       '/files',
-      express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
+      express.static(resolve(__dirname, '..', 'tmp', 'tmpUploads'))
     );
     // FRONTEND REACT
     this.server.use(express.static(resolve(__dirname, '../client')));

@@ -6,16 +6,16 @@ import File from '../models/File';
 class FileController {
   async store(req, res) {
     const { originalname: name, filename, path: filePath } = req.file;
-
-    await sharp(filePath)
+    
+    sharp.cache(false);
+    var buffer = await sharp(filePath)
       .resize({ width: 600, withoutEnlargement: true })
       .webp({ quality: 70 })
-      .toFile(
-        resolve(__dirname, '../', '../', '../', 'tmp', 'uploads', filename)
-      );
+      .toBuffer();
+      
+    sharp(buffer).toFile(resolve(__dirname, '../', '../', '../', 'tmp', 'tmpUploads', filename));
 
     fs.unlinkSync(filePath);
-
     const { id, url } = await File.create({ name, path: filename });
     return res.json({
       id,
