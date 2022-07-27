@@ -54,6 +54,7 @@ class LocationController {
           ],
         },
       ],
+      where: { active: true },
     });
     return res.json(cities);
   }
