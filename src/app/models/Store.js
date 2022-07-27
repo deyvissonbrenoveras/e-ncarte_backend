@@ -10,7 +10,7 @@ class Store extends Model {
         name: Sequelize.STRING,
         url: Sequelize.STRING,
         address: Sequelize.STRING,
-        city: Sequelize.STRING,
+        cityId: Sequelize.STRING,
         phone: Sequelize.STRING,
         whatsapp: Sequelize.STRING,
         instagram: Sequelize.STRING,
@@ -52,6 +52,7 @@ class Store extends Model {
       through: 'Partners_Stores',
       foreignKey: 'storeId',
     });
+    this.belongsTo(models.City, { foreignKey: 'cityId', as: 'city' });
   }
 }
 

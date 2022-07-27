@@ -18,6 +18,8 @@ import PartnerController from './app/controllers/PartnerController';
 import PartnerStoreController from './app/controllers/PartnerStoreController';
 import ProductPartnerController from './app/controllers/ProductPartnerController';
 import LogController from './app/controllers/LogController';
+import LocationController from './app/controllers/LocationController';
+import StoreCategoryController from './app/controllers/StoreCategoryController';
 
 const upload = multer(multerOptions);
 
@@ -30,6 +32,8 @@ routes.get('/stores', StoreController.show);
 routes.get('/store', StoreController.index);
 
 routes.get('/partners/:id', PartnerController.index);
+
+routes.get('/locations/active-cities', LocationController.showActiveCities);
 
 // AUTHENTICATION MIDLEWARE
 routes.use(authMiddleware);
@@ -70,4 +74,13 @@ routes.put('/partners_stores/:partnerId', PartnerStoreController.delete);
 routes.post('/files', upload.single('file'), FileController.store);
 
 routes.get('/logs', LogController.show);
+
+routes.get('/locations/states', LocationController.showStates);
+routes.get('/locations/cities', LocationController.showCities);
+
+routes.get('/store-categories/:id', StoreCategoryController.index);
+routes.get('/store-categories', StoreCategoryController.show);
+routes.post('/store-categories', StoreCategoryController.store);
+routes.put('/store-categories/:id', StoreCategoryController.update);
+
 export default routes;
