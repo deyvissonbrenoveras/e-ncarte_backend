@@ -10,6 +10,7 @@ import ProductStore from '../app/models/ProductStore';
 import Log from '../app/models/Log';
 import State from '../app/models/State';
 import City from '../app/models/City';
+import StoreCategory from '../app/models/StoreCategory';
 
 import databaseConfig from '../config/database';
 
@@ -24,6 +25,7 @@ const models = [
   Log,
   State,
   City,
+  StoreCategory,
 ];
 
 class Database {

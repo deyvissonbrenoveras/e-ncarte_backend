@@ -8,6 +8,8 @@ import User from '../models/User';
 import Product from '../models/Product';
 import Category from '../models/Category';
 import Partner from '../models/Partner';
+import City from '../models/City';
+import State from '../models/State';
 
 class StoreController {
   async index(req, res) {
@@ -108,6 +110,18 @@ class StoreController {
             },
           ],
         },
+        {
+          model: City,
+          as: 'city',
+          attributes: ['id', 'name'],
+          include: [
+            {
+              model: State,
+              as: 'state',
+              attributes: ['id', 'name', 'uf'],
+            },
+          ],
+        },
       ],
     });
     // CHECK IF EXISTS
@@ -134,6 +148,18 @@ class StoreController {
         model: File,
         as: 'secondaryCover',
         attributes: ['id', 'url', 'path'],
+      },
+      {
+        model: City,
+        as: 'city',
+        attributes: ['id', 'name'],
+        include: [
+          {
+            model: State,
+            as: 'state',
+            attributes: ['id', 'name', 'uf'],
+          },
+        ],
       },
     ];
     const where = showInactive ? {} : { active: true };

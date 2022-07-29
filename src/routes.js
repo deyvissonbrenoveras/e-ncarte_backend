@@ -19,6 +19,7 @@ import PartnerStoreController from './app/controllers/PartnerStoreController';
 import ProductPartnerController from './app/controllers/ProductPartnerController';
 import LogController from './app/controllers/LogController';
 import LocationController from './app/controllers/LocationController';
+import StoreCategoryController from './app/controllers/StoreCategoryController';
 
 const upload = multer(multerOptions);
 
@@ -76,5 +77,10 @@ routes.get('/logs', LogController.show);
 
 routes.get('/locations/states', LocationController.showStates);
 routes.get('/locations/cities', LocationController.showCities);
+
+routes.get('/store-categories/:id', StoreCategoryController.index);
+routes.get('/store-categories', StoreCategoryController.show);
+routes.post('/store-categories', StoreCategoryController.store);
+routes.put('/store-categories/:id', StoreCategoryController.update);
 
 export default routes;
