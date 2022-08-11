@@ -10,6 +10,7 @@ import Category from '../models/Category';
 import Partner from '../models/Partner';
 import City from '../models/City';
 import State from '../models/State';
+import StoreCategory from '../models/StoreCategory';
 
 class StoreController {
   async index(req, res) {
@@ -121,6 +122,11 @@ class StoreController {
               attributes: ['id', 'name', 'uf'],
             },
           ],
+        },
+        {
+          model: StoreCategory,
+          as: 'storeCategory',
+          attributes: ['id', 'name'],
         },
       ],
     });
