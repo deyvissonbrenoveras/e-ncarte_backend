@@ -42,6 +42,7 @@ class PartnerController {
             'priceType',
             'price',
             'featured',
+            'fractionedQuantity',
             'categoryId',
           ],
           include: [
