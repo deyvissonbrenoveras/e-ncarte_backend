@@ -32,6 +32,7 @@
   },
   "scripts": {
     "dev": "nodemon src/server.js",
+    "dev-docker": "npm i sharp && nodemon --legacy-watch  src/server.js",
     "build": "sucrase ./src -d ./dist --transforms imports",
     "start": "node dist/server.js"
   },

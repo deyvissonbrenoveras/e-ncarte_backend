@@ -11,6 +11,7 @@ class Store extends Model {
         url: Sequelize.STRING,
         address: Sequelize.STRING,
         cityId: Sequelize.STRING,
+        storeCategoryId: Sequelize.STRING,
         phone: Sequelize.STRING,
         whatsapp: Sequelize.STRING,
         instagram: Sequelize.STRING,
