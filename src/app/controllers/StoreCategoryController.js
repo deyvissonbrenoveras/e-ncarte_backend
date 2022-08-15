@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import StoreCategory from '../models/StoreCategory';
 import User from '../models/User';
+import Store from '../models/Store';
 
 class StoreCategoryController {
   async index(req, res) {
@@ -91,6 +92,20 @@ class StoreCategoryController {
     }
     await storeCategory.update(req.body);
     return res.json(storeCategory);
+  }
+  async showActiveStoreCategories(req, res) {
+    const storeCategories = await Store.findAll({
+      attributes: ['storeCategoryId'],
+      group: ['storeCategoryId', 'storeCategory.id'],
+      include: [
+        {
+          model: StoreCategory,
+          as: 'storeCategory',
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+    return res.json(storeCategories);
   }
 }
 

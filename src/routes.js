@@ -34,6 +34,10 @@ routes.get('/store', StoreController.index);
 routes.get('/partners/:id', PartnerController.index);
 
 routes.get('/locations/active-cities', LocationController.showActiveCities);
+routes.get(
+  '/store-categories/active',
+  StoreCategoryController.showActiveStoreCategories
+);
 
 // AUTHENTICATION MIDLEWARE
 routes.use(authMiddleware);
