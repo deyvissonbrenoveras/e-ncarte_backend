@@ -20,6 +20,7 @@ class ProductController {
         'priceType',
         'price',
         'featured',
+        'fractionedQuantity',
         'categoryId',
       ],
       include: [
@@ -94,6 +95,7 @@ class ProductController {
         otherwise: Yup.number().positive().required(),
       }),
       featured: Yup.boolean(),
+      fractionedQuantity: Yup.boolean(),
       categoryId: Yup.number().positive().nullable(true),
     });
 
@@ -145,6 +147,7 @@ class ProductController {
         otherwise: Yup.number().positive().required(),
       }),
       featured: Yup.boolean().notRequired(),
+      fractionedQuantity: Yup.boolean().notRequired(),
       categoryId: Yup.number().positive().nullable(true),
     });
     if (!(await schema.isValid(req.body))) {

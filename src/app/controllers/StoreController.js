@@ -73,6 +73,7 @@ class StoreController {
             'priceType',
             'price',
             'featured',
+            'fractionedQuantity',
             'categoryId',
           ],
           through: { attributes: ['customPrice'] },
