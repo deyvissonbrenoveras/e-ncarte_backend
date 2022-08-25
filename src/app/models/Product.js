@@ -9,6 +9,7 @@ class Product extends Model {
         priceType: Sequelize.NUMBER,
         price: Sequelize.NUMBER,
         featured: Sequelize.BOOLEAN,
+        fractionedQuantity: Sequelize.BOOLEAN,
       },
       {
         sequelize,
